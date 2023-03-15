@@ -1,0 +1,49 @@
+<div id="sidebar">
+  <div id="row1">
+    <div id="sidebarHeader">
+      <div class="actionsContainer">
+        <img id="closeMenuButton" (click)="closeMenu()" src="../../assets/images/close-icon.svg">
+      </div>
+    </div>
+    <div id="addParticipantsHeading">
+      Add group participants
+    </div>
+    <div id="searchBox">
+      <input [(ngModel)]="searchText" type="text" placeholder="Type contact name or mobile number">
+    </div>
+  </div>
+
+  <div id="sidebarContent" >
+    <div
+      class="contactInfo"
+      *ngFor="let contact of !searchText ? contacts : filteredContacts"
+    >
+      <div class="picture">
+        <img src="../../assets/images/no-avatar.svg">
+      </div>
+
+      <div class="content">
+
+        <div class="contactHeader">
+          <div class="name">{{ contact.name }}</div>
+          <div class="isSelectedCheckBox"><input [(ngModel)]="contact.isSelected" class="customCheckbox" type="checkbox"></div>
+        </div>
+
+        <div class="mobileNumber">
+          {{contact.mobileNumber}}
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <div id="footer">
+    <div id="textArea">
+      <input type="text" [(ngModel)]="groupName" placeholder=" Type group name">
+      <div id="createGroupSubmit" (click)="submitCreateGroup()">
+        <img src="../../assets/images/go-forward-icon.svg">
+      </div>
+    </div>
+  </div>
+
+</div>

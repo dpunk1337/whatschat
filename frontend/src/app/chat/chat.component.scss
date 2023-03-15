@@ -1,0 +1,164 @@
+#container{
+  width: 100%;
+  height: 100%;
+  display: flex;
+
+  flex-direction: column;
+
+  #header{
+    //flex-basis: 67px; don't use this, it causes issue when more messages are added to body - use min-height instead
+    min-height: 67px;
+    background-color: #F0F2F5;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 20px;
+
+    #avatarSection{
+      display: flex;
+      align-items: center;
+
+      #picture{
+        flex-basis: 43px;
+        height: 43px;
+
+        img{
+          width: 100%;
+          cursor: pointer;
+        }
+      }
+
+      #nameSection{
+        padding: 0 15px;
+        color: #111B21;
+      }
+
+    }
+    #actionButtons{
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      img{
+        cursor: pointer;
+      }
+
+      #chatMoreVerticalContainer{
+        position: relative;
+        img{
+          cursor: pointer;
+        }
+        #chatMoreVerticalMenu{
+          background-color: #fff;
+          position: absolute;
+          padding: 9px 0;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          box-shadow: rgba(120, 120, 120, 0.45) 0px 0px 10px;
+          border-radius: 3px;
+          top: 40px;
+          right: 0;
+
+          .option{
+            width: 110px;
+            min-height: 30px;
+            display: flex;
+            padding: 13px 58px 0px 24px;
+            font-size: 14.5px;
+            color: #3B4A54;
+            cursor: pointer;
+
+            &:hover {
+              background-color: rgba(#00000d, 0.04);
+            }
+          }
+        }
+      }
+    }
+  }
+  #body{
+    background-color: #efeae2;
+    overflow: auto;
+    display: flex;
+    flex-direction: column-reverse;
+    flex-grow: 1;
+    //align-items: flex-end;
+    //justify-content: flex-end; // don't use this - scroll doesn't work because of this - use flex-direction: column-reverse instead
+    padding: 30px 50px;
+
+    .message{
+      margin-top : 10px;
+      color: #111B21;
+      font-size: 14.2px;
+      display: flex;
+      align-items: flex-start;
+      flex-direction: column;
+
+      .messageContent{
+        padding: 10px;
+        border-radius: 5px;
+        background-color: #fff;
+        max-width: 400px;
+
+        .time{
+          text-align: right;
+          font-size: 11px;
+          color: #667781;
+          margin-top: 5px;
+        }
+      }
+      &.me{
+        align-items: flex-end;
+        .messageContent{
+          background-color: #d9fdd3;
+        }
+      }
+    }
+  }
+  #footer{
+    //flex-basis: 67px; don't use this, it causes issue when more messages are added to body - use min-height instead
+    min-height: 67px;
+    background-color: #F0F2F5;
+    display: flex;
+
+    #smileyIcon{
+      flex-basis: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img{
+        cursor: pointer;
+      }
+    }
+    #textArea{
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+
+      textarea{
+        height: 40px;
+        width: 100%;
+        border: 0;
+        border-radius: 8px;
+        outline: none;
+        resize: none;
+        box-sizing: border-box;
+        padding: 11px;
+        font-size: 15px;
+      }
+    }
+    #micIcon{
+      flex-basis: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      img{
+        cursor: pointer;
+      }
+    }
+  }
+}

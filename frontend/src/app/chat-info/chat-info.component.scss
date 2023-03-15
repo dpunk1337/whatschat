@@ -1,0 +1,184 @@
+#sidebar{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #F0F2F5;
+
+  #row1{
+    display: flex;
+    flex-direction: column;
+
+    #sidebarHeader{
+      flex-basis: 67px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      background-color: #F0F2F5;
+      padding-left: 20px;
+      padding-right: 20px;
+
+      .actionsContainer{
+        height: 100%;
+        width: 120px;
+        margin-top: 38px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+
+        #closeMenuButton{
+          cursor: pointer;
+        }
+      }
+    }
+ }
+
+  #sidebarContent{
+    height: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+
+    #chatProfile{
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #fff;
+      height: 100%;
+
+      #displayPicture{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 200px;
+      }
+
+      #chatProfileName{
+        margin-top: 20px;
+        font-size: 24px;
+        color: #111B21;
+      }
+    }
+
+    #groupSettings{
+      background-color: #fff;
+      margin-top: 10px;
+      flex-grow:1;
+
+      #modifyGroupParticipants{
+        margin-top: 10px;
+        background-color: #fff;
+        min-height: 50px;
+        color: #111B21;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 19px;
+        font-weight: 500;
+      }
+
+      #searchBox{
+        min-height: 60px;
+        background-color: white;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding-bottom: 20px;
+
+        input{
+          width: calc(90% - 40px);
+          border-left: 0 solid #fff;
+          border-right: 0 solid #fff;
+          border-top: 0 solid #fff;
+          border-bottom: 1px solid #e9edef;
+          height: 50%;
+          font-size: 15px;
+          outline: none;
+        }
+      }
+
+
+
+      #noConversations{
+        padding-top: 30px;
+        text-align: center;
+        color: #667781;
+        font-size: 18px;
+      }
+
+      .contactInfo{
+        width: 100%;
+        height: 67px;
+        display: flex;
+        transition: all 0.1s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba(#00000d, 0.04);
+        }
+
+        .picture{
+          height: 100%;
+          flex-basis: 73px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          img{
+            width: 49px;
+          }
+        }
+        .content{
+          height: 100%;
+          border-bottom: 1px solid #e9edef;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+          padding-right: 15px;
+
+          .contactHeader{
+            flex-grow: 1;
+            display: flex;
+            align-items: end;
+            margin-bottom: 2px;
+            justify-content: space-between;
+
+            .name{
+              font-size: 17px;
+            }
+
+            .isSelectedCheckBox{
+              .customCheckbox{
+                  background-color: #fff;
+                  border: 2px solid #008069;
+                  padding: 7px;
+              }
+
+              .customCheckbox:checked {
+                background-color: #008069;
+                border: 2px solid #008069;
+              }
+
+              .customCheckbox:checked:after {
+                font-size: 10px;
+                color: #fff;
+              }
+            }
+
+
+          }
+
+          .mobileNumber{
+            flex-grow: 1;
+            font-size: 14px;
+            color: rgb(102, 119, 129);
+            margin-top: 2px;
+            display: flex;
+            line-height: 22px;
+          }
+        }
+      }
+    }
+  }
+}

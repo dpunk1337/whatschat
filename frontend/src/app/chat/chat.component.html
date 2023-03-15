@@ -1,0 +1,42 @@
+<div id="container">
+  <div id="header">
+    <div id="avatarSection">
+      <div id="picture">
+        <img src="../../assets/images/no-avatar.svg">
+      </div>
+      <div id="nameSection">
+        {{ conversation.name }}
+      </div>
+    </div>
+    <div id="actionButtons">
+      <div id="chatMoreVerticalContainer">
+        <img src="../../assets/images/more-vertical-icon.svg" (click)="toggleMoreVerticalMenuVisible()">
+        <div #chatbarMoreVerticalMenu
+             [hidden]="!moreVerticalMenuVisible"
+             id="chatMoreVerticalMenu"
+             (clickOutside)="closeMoreVerticalMenuVisible()">
+          <div id="checkChatInfo" (click)="onOpenChatInfoMenu()" class="option">Info</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="body">
+    <div class="message" [ngClass]="{me : message.me }" *ngFor="let message of conversation.messages">
+      <div class="messageContent">
+        {{ message.body }}
+        <div class="time">{{ message.time }}</div>
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+    <div id="smileyIcon">
+      <img src="../../assets/images/smiley-icon.svg"/>
+    </div>
+    <div id="textArea">
+      <textarea (keyup.enter)="submitMessage($event)" placeholder=" Type a message"></textarea>
+    </div>
+    <div id="micIcon">
+      <img src="../../assets/images/mic-icon.svg"/>
+    </div>
+  </div>
+</div>

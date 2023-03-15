@@ -1,0 +1,60 @@
+
+<div id="sidebar">
+  <div id="row1">
+    <div id="sidebarHeader">
+      <div class="avatarContainer">
+        <img src="../../assets/images/no-avatar.svg">
+      </div>
+      <div class="actionsContainer">
+        <img src="../../assets/images/status-icon.svg">
+        <img src="../../assets/images/chat-icon.svg">
+        <div id="sidebarMoreVerticalContainer">
+          <img src="../../assets/images/more-vertical-icon.svg" (click)="toggleMoreVerticalMenuVisible()">
+          <div #sidebarMoreVerticalMenu [hidden]="!moreVerticalMenuVisible" id="sidebarMoreVerticalMenu" (clickOutside)="closeMoreVerticalMenuVisible()">
+            <div id="createNewGroup" (click)="onOpenNewGroupCreateMenu()" class="option">New group</div>
+            <div id="logOut" class="option">Log out</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="searchBox">
+      <img src="../assets/images/search-icon.svg">
+      <input [(ngModel)]="searchText" type="text" placeholder="Search or start a new chat">
+    </div>
+  </div>
+
+  <div id="sidebarContent" >
+<!--    <div id="noConversations">All chats are archived</div>-->
+    <div
+      class="conversation"
+      *ngFor="let conversation of !searchText ? conversations : filteredConversations"
+      (click)="conversationClicked.emit(conversation)"
+    >
+      <div class="picture">
+        <img src="../../assets/images/no-avatar.svg">
+      </div>
+
+      <div class="content">
+
+        <div class="conversationHeader">
+          <div class="name">{{ conversation.name }}</div>
+          <div class="time">{{ conversation.time }}</div>
+        </div>
+
+        <div class="message">
+          <img class="messageStatus" *ngIf=" conversation.latestMessageStatusId == 1" src="../../assets/images/not-received-icon.svg">
+          <img class="messageStatus" *ngIf=" conversation.latestMessageStatusId == 2" src="../../assets/images/received-icon.svg">
+          <img class="messageStatus" *ngIf=" conversation.latestMessageStatusId == 3" src="../../assets/images/seen-icon.svg">
+          <div class="messsageText">
+            {{conversation.latestMessage.length>25
+            ? (conversation.latestMessage.slice(0,25).trim() + "..." )
+            : conversation.latestMessage }}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

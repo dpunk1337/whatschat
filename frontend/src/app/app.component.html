@@ -1,0 +1,35 @@
+<div id="background_header"></div>
+<div id="background_body"></div>
+
+<div id="chatContainer">
+  <app-sidebar (conversationClicked) ="onConversationSelected($event)"
+               (openCreateNewGroupMenu)="openCreateGroupMenu()"
+               [addConversation]="addConversation">
+  </app-sidebar>
+  <app-create-group-menu
+    *ngIf="isCreateGroupMenuOpen"
+    (closeButtonClicked)="closeCreateGroupMenu()"
+    (newGroupAdded)="onNewGroupAdded($event)">
+  </app-create-group-menu>
+
+  <div id="chat" *ngIf="!conversation">
+    <div id="chatPlaceholder">
+      <img src="../../assets/images/no-phone-icon.svg">
+      <h1>WhatsApp Web</h1>
+      <div>Send and receive messages without keeping your phone online.
+        <br>Use WhatsApp on up to 4 linked devices and 1 phone at the same time.
+      </div>
+    </div>
+  </div>
+  <app-chat
+    [conversation]="conversation"
+    (openChatInfoMenu)="openChatInfo()"
+    *ngIf="conversation">
+  </app-chat>
+  <app-chat-info [conversation]="conversation"
+    *ngIf="isChatInfoOpen"
+    (closeButtonClicked)="closeChatInfo()">
+</app-chat-info>
+</div>
+
+<router-outlet></router-outlet>
