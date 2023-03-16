@@ -12,7 +12,7 @@
           <img src="../../assets/images/more-vertical-icon.svg" (click)="toggleMoreVerticalMenuVisible()">
           <div #sidebarMoreVerticalMenu [hidden]="!moreVerticalMenuVisible" id="sidebarMoreVerticalMenu" (clickOutside)="closeMoreVerticalMenuVisible()">
             <div id="createNewGroup" (click)="onOpenNewGroupCreateMenu()" class="option">New group</div>
-            <div id="logOut" class="option">Log out</div>
+            <div id="logOut" (click)="logOut()" class="option">Log out</div>
           </div>
         </div>
       </div>

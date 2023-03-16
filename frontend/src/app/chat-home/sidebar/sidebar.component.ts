@@ -1,11 +1,23 @@
 import { Component, EventEmitter, Output, ElementRef, ViewChild, HostListener, Input, OnChanges, SimpleChanges} from '@angular/core';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+//import { LoginComponent } from '../auth/login.component';
+import { LoginComponent } from '../../auth/login.component';
+
+import { Router } from '@angular/router';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
+
+@Injectable()
 export class SidebarComponent {
+
+//  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService, private router: Router) { }
 
   searchText:any;
 
@@ -56,4 +68,19 @@ export class SidebarComponent {
     }
   }
 
+//  logOut() {
+//    this.closeMoreVerticalMenuVisible();
+//    this.http.get('http://localhost:5000/logout').subscribe((datas: any) => {
+//      console.log(datas);
+//    });
+//  }
+
+//  constructor(private authService: AuthService, private router: Router) {}
+
+  logOut() {
+    this.authService.logout().subscribe(() => {
+      sessionStorage.removeItem('username');
+      this.router.navigate(['/login']);
+    });
+  }
 }

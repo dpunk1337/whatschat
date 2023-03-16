@@ -1,0 +1,12 @@
+<div id="background"></div>
+<div id="backgroundDoodle"></div>
+<div id="loginBody">
+  <div id="loginContainer">
+    <form id="loginForm" (ngSubmit)="onSubmit()">
+      <div id="loginText">Login to continue...</div>
+      <input type="text" name="username" [(ngModel)]="username" placeholder="Username" required>
+      <input type="password" name="password" [(ngModel)]="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</div>

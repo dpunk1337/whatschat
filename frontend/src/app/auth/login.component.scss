@@ -1,0 +1,97 @@
+#background{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: #00a884;
+  z-index: -1000;
+}
+#backgroundDoodle{
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/images/doodle_background.png');
+  background-repeat: repeat;
+  position: absolute;
+  z-index: -1000;
+}
+#loginBody{
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  #loginContainer{
+    height: 400px;
+    width: 900px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 1px solid green;
+    justify-content: center;
+    background-color: #fff;
+    box-shadow: rgba(124,124,124,1) 0 0 20px;
+
+
+    #loginText{
+      color: #656565;
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+
+    #loginForm{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+
+      input[type = text], input[type = password]{
+        background-color: #00a884;
+        height: 40px;
+        width: 300px;
+        border: 0;
+        border-radius: 8px;
+        outline: none;
+        resize: none;
+        box-sizing: border-box;
+        margin-top: 20px;
+        padding: 28px;
+        font-size: 20px;
+        color: #fff;
+      }
+
+      input[type = text]::placeholder, input[type = password]::placeholder{
+        color: rgba(255,255,255,0.5);
+      }
+
+      button{
+        background-color: #fff;
+        height: 50px;
+        width: 300px;
+        border: 2px solid #00a884;
+        border-radius: 8px;
+        outline: none;
+        resize: none;
+        box-sizing: border-box;
+        margin-top: 20px;
+        font-size: 20px;
+        color: #00a884;
+        cursor: pointer;
+      }
+
+      button:hover{
+        background-color: rgba(0, 84, 66, 0.5);
+        color: #d6d6d6;
+        transition: 0.5s;
+      }
+
+      button:active{
+        background-color: #00a884;
+        color: #fff;
+        transition: 0.2s;
+      }
+    }
+}
+
+}
