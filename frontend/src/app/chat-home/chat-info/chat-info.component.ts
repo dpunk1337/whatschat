@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import * as moment from 'moment'
+import * as moment from 'moment';
+import { UserService } from '@app/_services/user.service';
+import { User } from '@app/_models/user.model';
+import { Contact } from '@app/_models/contact.model';
 
 @Component({
   selector: 'app-chat-info',
@@ -13,9 +16,7 @@ export class ChatInfoComponent {
   @Output() closeButtonClicked : EventEmitter<any> = new EventEmitter();
   @Output() newGroupAdded : EventEmitter<any> = new EventEmitter();
 
-  FRESH_CONTACTS = [{"id":1,"name":"Harry Ron","mobileNumber":6371798813,"isSelected":false},{"id":2,"name":"Hermione Granger","mobileNumber":8457694336,"isSelected":false},{"id":3,"name":"Tony Stark","mobileNumber":9472954430,"isSelected":false},{"id":4,"name":"Jack Dawson","mobileNumber":7186037556,"isSelected":false},{"id":5,"name":"Mia Wallace","mobileNumber":7313270452,"isSelected":false},{"id":6,"name":"Harry Potter","mobileNumber":8108825014,"isSelected":false},{"id":7,"name":"Elle Woods","mobileNumber":6258588199,"isSelected":false},{"id":8,"name":"Han Solo","mobileNumber":7558711986,"isSelected":false},{"id":9,"name":"Andy Dufresne","mobileNumber":7385252080,"isSelected":false},{"id":10,"name":"Forrest Gump","mobileNumber":7786530630,"isSelected":false},{"id":11,"name":"Harry Potter","mobileNumber":6113648499,"isSelected":false},{"id":12,"name":"Michael Corleone","mobileNumber":8875078582,"isSelected":false},{"id":13,"name":"Indiana Jones","mobileNumber":8127179725,"isSelected":false},{"id":14,"name":"Ellen Ripley","mobileNumber":8928006907,"isSelected":false}];
-
-  contacts = this.FRESH_CONTACTS;
+  contacts : Contact[] = [];
 
   closeMenu(){
     this.closeButtonClicked.emit();
@@ -26,12 +27,28 @@ export class ChatInfoComponent {
 
   moreVerticalMenuVisible = false;
 
-//  @Output() conversationClicked: EventEmitter<any> = new EventEmitter();
+  constructor(private userService: UserService) {}
+
+  getContacts() {
+    this.contacts = [];
+    this.userService.getAll().subscribe((users: User[]) => {
+      users.forEach( (user: User) => {
+          this.contacts.push({
+            'id': user.id as number,
+            'name': user.username as string,
+            'mobileNumber': user.mobile_number as number,
+            'isSelected': false
+          });
+      });
+      this.updateContacts();
+    });
+  }
+
 
   get filteredContacts(){
   return this.contacts.filter((contacts)=>{
-      return (contacts.mobileNumber.toString().includes(this.searchText.toString())
-      || contacts.name.toLowerCase().includes(this.searchText.toLowerCase()));
+      return (contacts.mobileNumber?.toString().includes(this.searchText.toString())
+      || contacts.name?.toLowerCase().includes(this.searchText.toLowerCase()));
     })
   }
 
@@ -79,8 +96,7 @@ export class ChatInfoComponent {
       if(changes['conversation'].previousValue
       && changes['conversation'].previousValue['name']==changes['conversation'].currentValue['name']) return;
       if(!this.conversation['groupParticipants']) return;
-      this.contacts = JSON.parse(JSON.stringify(this.FRESH_CONTACTS));
-      this.updateContacts();
+      this.getContacts();
     }
   }
 
