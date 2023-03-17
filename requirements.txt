@@ -2,4 +2,5 @@ flask
 flask-login
 flask-sqlalchemy
 marshmallow
+marshmallow_sqlalchemy
 flask-wtf
