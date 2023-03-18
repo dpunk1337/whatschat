@@ -2,7 +2,10 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import * as moment from 'moment'
 import { UserService } from '@app/_services/user.service';
+import { GroupService } from '@app/_services/group.service';
 import { Contact } from '@app/_models/contact.model'
+import { User } from '@app/_models/user.model'
+import { Group } from '@app/_models/group.model';
 
 @Component({
   selector: 'app-create-group-menu',
@@ -13,7 +16,7 @@ export class CreateGroupMenuComponent {
   @Output() closeButtonClicked : EventEmitter<any> = new EventEmitter();
   @Output() newGroupAdded : EventEmitter<any> = new EventEmitter();
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private groupService: GroupService) {}
 
   ngOnInit() {
       this.contacts = this.userService.getAllContacts();
@@ -45,6 +48,7 @@ export class CreateGroupMenuComponent {
 
   createGroup(){
     let participantsList = this.getNewGroupParticipantsList();
+    let participantsIdList = this.getIdListFrom(participantsList);
     let participantsNameList = this.getNameListFromContacts(participantsList);
     let welcomeMessage = "Welcome to my new group "+ participantsNameList.join(", ") + ".";
     let firstMessage = this.createMessage(welcomeMessage);
@@ -56,6 +60,12 @@ export class CreateGroupMenuComponent {
     "messages":[firstMessage,],
     "groupParticipants": participantsList
     }
+    this.groupService.createGroup(this.groupName, participantsIdList).subscribe((created_group :Group) => {
+      let id :number = created_group.id as number;
+      let name :string =  created_group.name as string;
+      let members :User[] = created_group.members as User[];
+      console.log("group created with id and name", id, name, members);
+    });
     this.newGroupAdded.emit(conversation);
   }
 
@@ -67,6 +77,14 @@ export class CreateGroupMenuComponent {
     return this.contacts.filter((contacts)=>{
       return contacts.isSelected;
     })
+  }
+
+  getIdListFrom(contacts: any){
+    let idList:number[] = [];
+    contacts.forEach( (contact:any) => {
+      idList.push(contact.id);
+    });
+    return idList;
   }
 
   getNameListFromContacts(contacts: any){
