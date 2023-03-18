@@ -47,4 +47,10 @@ export class GroupService {
       return this.http.post<User[]>(`${environment.apiUrl}/removeGroupMember`, body);
     }
 
+    getUserConversations(id :number) {
+      let body = new FormData();
+      body.append('id', id.toString());
+      return this.http.post<any[]>(`${environment.apiUrl}/getMemberConversations`, body);
+    }
+
 }

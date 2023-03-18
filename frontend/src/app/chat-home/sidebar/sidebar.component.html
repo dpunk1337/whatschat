@@ -47,7 +47,7 @@
           <img class="messageStatus" *ngIf=" conversation.latestMessageStatusId == 2" src="../../assets/images/received-icon.svg">
           <img class="messageStatus" *ngIf=" conversation.latestMessageStatusId == 3" src="../../assets/images/seen-icon.svg">
           <div class="messsageText">
-            {{conversation.latestMessage.length>25
+            {{ ( conversation.latestMessage && conversation.latestMessage.length>25 )
             ? (conversation.latestMessage.slice(0,25).trim() + "..." )
             : conversation.latestMessage }}
           </div>

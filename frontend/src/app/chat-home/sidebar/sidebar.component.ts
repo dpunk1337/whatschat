@@ -6,6 +6,7 @@ import { LoginComponent } from '../../auth/login.component';
 
 import { Router } from '@angular/router';
 import { AuthService } from '../../auth/auth.service';
+import { GroupService } from '@app/_services/group.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -34,6 +35,9 @@ export class SidebarComponent {
 
   ngOnInit(){
     this.username = this.authService.current_user['username'];
+    this.groupService.getUserConversations(this.authService.current_user['id']).subscribe((conversations :any) => {
+      this.conversations = conversations;
+    });
   }
 
   get filteredConversations(){

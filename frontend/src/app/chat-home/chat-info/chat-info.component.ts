@@ -96,7 +96,6 @@ export class ChatInfoComponent {
     if (changes['conversation'] && changes['conversation'].currentValue) {
       if(changes['conversation'].previousValue
       && changes['conversation'].previousValue['name']==changes['conversation'].currentValue['name']) return;
-      if(!this.conversation['groupParticipants']) return;
       this.getContacts();
     }
   }

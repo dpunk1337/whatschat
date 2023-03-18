@@ -94,3 +94,16 @@ def remove_group_member():
     group.members.remove(user)
     db.session.commit()
     return jsonify({'message': 'Member removed successfully'})
+
+@bp.route('/api/getMemberGroups', methods=['POST'])
+def get_member_groups():
+    id = request.form['id']
+    user = User.query.get(int(id))
+    return jsonify(GroupSchema(many=True).dump(user.groups))
+
+@bp.route('/api/getMemberConversations', methods=['POST'])
+def get_member_conversations():
+    id = request.form['id']
+    user = User.query.get(int(id))
+    conversations = GroupSchema(many=True).dump(user.groups)
+    return jsonify(conversations)
