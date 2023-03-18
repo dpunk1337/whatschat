@@ -43,7 +43,7 @@ export class CreateGroupMenuComponent {
   submitCreateGroup(){
     if(this.groupName == "")return;
     this.createGroup();
-    this.closeMenu();
+//    this.closeMenu();
   }
 
   createGroup(){
@@ -52,21 +52,25 @@ export class CreateGroupMenuComponent {
     let participantsNameList = this.getNameListFromContacts(participantsList);
     let welcomeMessage = "Welcome to my new group "+ participantsNameList.join(", ") + ".";
     let firstMessage = this.createMessage(welcomeMessage);
-    let conversation = {
-    "name":this.groupName,
-    "time":moment().format("LT"),
-    "latestMessage":"Group created.",
-    "latestMessageStatusId":0,
-    "messages":[firstMessage,],
-    "groupParticipants": participantsList
-    }
+
     this.groupService.createGroup(this.groupName, participantsIdList).subscribe((created_group :Group) => {
       let id :number = created_group.id as number;
       let name :string =  created_group.name as string;
       let members :User[] = created_group.members as User[];
-      console.log("group created with id and name", id, name, members);
+
+      let conversation = {
+        "id": id,
+        "name":this.groupName,
+        "time":moment().format("LT"),
+        "latestMessage":"Group created.",
+        "latestMessageStatusId":0,
+        "messages":[firstMessage,],
+        "groupParticipants": participantsList
+      }
+
+      this.newGroupAdded.emit(conversation);
+      this.closeMenu();
     });
-    this.newGroupAdded.emit(conversation);
   }
 
   createMessage(message:string){

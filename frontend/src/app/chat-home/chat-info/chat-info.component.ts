@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output, Input, OnChanges, SimpleChanges } from
 import { FormsModule } from '@angular/forms';
 import * as moment from 'moment';
 import { UserService } from '@app/_services/user.service';
+import { GroupService } from '@app/_services/group.service';
 import { User } from '@app/_models/user.model';
 import { Contact } from '@app/_models/contact.model';
 
@@ -27,7 +28,7 @@ export class ChatInfoComponent {
 
   moreVerticalMenuVisible = false;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private groupService: GroupService) {}
 
   getContacts() {
     this.contacts = [];
@@ -101,21 +102,31 @@ export class ChatInfoComponent {
   }
 
   updateContacts(){
-    let groupParticipants =  this.conversation['groupParticipants'];
-    groupParticipants.forEach((groupParticipant:any) => {
-      let index = this.contacts.findIndex(element => element["id"]===groupParticipant["id"]);
-      if (index !== -1) {
-        this.contacts.splice(index, 1);
-      }
+    this.groupService.getGroupMembers(this.conversation['id']).subscribe((users: User[]) => {
+      let groupParticipants : Contact[] = [];
+      users.forEach((user: User) => {
+        groupParticipants.push({
+          'id': user.id as number,
+          'name': user.username as string,
+          'mobileNumber': user.mobile_number as number,
+          'isSelected': true
+        });
+        let index = this.contacts.findIndex(element => element.id === user.id);
+        if (index !== -1) {
+          this.contacts.splice(index, 1);
+        }
+      });
+      this.contacts = groupParticipants.concat(this.contacts);
     });
-    this.contacts = groupParticipants.concat(this.contacts);
   }
 
   onMembershipChange(contact:any){
     if(contact.isSelected){
+      this.groupService.addGroupMember(this.conversation['id'], contact.id).subscribe();
       this.conversation['groupParticipants'].push(contact);
     }
     else{
+      this.groupService.removeGroupMember(this.conversation['id'], contact.id).subscribe();
       let index = this.conversation['groupParticipants'].findIndex((element: any) => element["id"]===contact["id"]);
       if(index!=-1) this.conversation['groupParticipants'].splice(index, 1);
     }
