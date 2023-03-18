@@ -107,3 +107,29 @@ def get_member_conversations():
     user = User.query.get(int(id))
     conversations = GroupSchema(many=True).dump(user.groups)
     return jsonify(conversations)
+
+@bp.route('/api/getGroupMessages', methods=['POST'])
+def get_group_messages():
+    id = request.form['id']
+    group = Group.query.get(int(id))
+    messages = GroupMessageSchema(many=True).dump(group.group_messages)
+    for index, message in enumerate(messages):
+        message['user_id'] = group.group_messages[index].user_id
+        message['group_id'] = group.group_messages[index].group_id
+    return jsonify(messages)
+
+@bp.route('/api/addGroupMessage', methods=['POST'])
+def add_group_message():
+    data = request.json
+    user_id = data.get('user_id')
+    group_id = data.get('group_id')
+
+    body = data.get('body')
+    user = User.query.get(user_id)
+    group = Group.query.get(group_id)
+
+    group_message = GroupMessage(body=body, user=user, chat_group=group)
+    db.session.add(group_message)
+    db.session.commit()
+
+    return {'message': 'Message persisted successfully'}

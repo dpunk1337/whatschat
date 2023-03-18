@@ -53,4 +53,18 @@ export class GroupService {
       return this.http.post<any[]>(`${environment.apiUrl}/getMemberConversations`, body);
     }
 
+    getGroupMessages(id :number) {
+      let body = new FormData();
+      body.append('id', id.toString());
+      return this.http.post<any[]>(`${environment.apiUrl}/getGroupMessages`, body);
+    }
+
+    sendGroupMessage(message :any) {
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
+      let body = JSON.stringify(message);
+      return this.http.post<any[]>(`${environment.apiUrl}/addGroupMessage`, body, {headers});
+    }
+
 }

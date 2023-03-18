@@ -21,7 +21,7 @@
     </div>
   </div>
   <div id="body">
-    <div class="message" [ngClass]="{me : message.me }" *ngFor="let message of conversation.messages">
+    <div class="message" [ngClass]="{me : message.me }" *ngFor="let message of messages">
       <div class="messageContent">
         {{ message.body }}
         <div class="time">{{ message.time }}</div>
