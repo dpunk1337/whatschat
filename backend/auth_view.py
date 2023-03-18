@@ -3,6 +3,7 @@ from flask_login import login_user, login_required, logout_user, current_user
 from backend import login_manager
 from backend.models import User
 from backend.forms import *
+from backend.schemas import UserSchema
 
 bp = Blueprint('auth',__name__)
 
@@ -10,18 +11,15 @@ bp = Blueprint('auth',__name__)
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main.home'))
-    print(request)
-    print(request.form['username'])
     form = LoginForm()
     # if form.validate_on_submit():
-    print('yes')
     user = User.query.filter_by(username=form.username.data).first()
     if user is None or not user.check_password(form.password.data):
-        flash('Invalid username or password')
-        print("no go")
-        return redirect(url_for('auth.login'))
+        return jsonify({'success': False, 'message':'Invalid credentials'}), 403
     login_user(user, remember=form.remember_me.data)
-    return jsonify({'message': 'Login successful'})
+    logged_in_user = UserSchema().dump(user)
+    logged_in_user.pop('password_hash')
+    return jsonify({'success': True, 'message': 'Login successful', 'user': logged_in_user})
 
 
 @login_manager.user_loader
