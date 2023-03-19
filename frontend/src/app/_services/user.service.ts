@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { User } from '@app/_models/user.model';
 import { Contact } from '@app/_models/contact.model';
@@ -32,5 +32,21 @@ export class UserService {
         });
       });
       return contacts;
+    }
+
+    saveUser(user :User, isEditMode :boolean) {
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
+      let body = {'user' : user, 'isEdit' : isEditMode}
+      return this.http.post<User>(`${environment.apiUrl}/saveUser`, body, { headers });
+    }
+
+    deleteUser(user :User) {
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json'
+      });
+      let body = {'user' : user}
+      return this.http.post<User>(`${environment.apiUrl}/deleteUser`, body, { headers });
     }
 }

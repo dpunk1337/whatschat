@@ -16,6 +16,7 @@ export class SaveUserComponent {
 
   @Output() closeButtonClicked : EventEmitter<any> = new EventEmitter();
   @Output() newUserSaved : EventEmitter<any> = new EventEmitter();
+  @Output() userDeleted : EventEmitter<any> = new EventEmitter();
   @Input() isEditMode : boolean = false;
   @Input() user : User = new User();
 
@@ -33,31 +34,22 @@ export class SaveUserComponent {
   moreVerticalMenuVisible = false;
 
   submitSaveUser(){
-    if(this.userName == "")return;
+    if(this.user.username == "" || this.user.password == "" || this.user.mobile_number == 0) return;
     this.saveUser();
   }
 
   saveUser(){
-//    this.userService.saveUser(this.userName, this.user.id).subscribe((created_user :User) => {
-//      let id :number = created_user.id as number;
-//      let name :string =  created_user.username as string;
-//
-////      let user = {
-////        "id": id,
-////        "name":this.userName,
-////      }
-//
-//      this.newUserSaved.emit(user);
-//      this.closeMenu();
-//    });
+    this.userService.saveUser(this.user, this.isEditMode).subscribe((created_user :User) => {
+      this.newUserSaved.emit(created_user);
+      this.closeMenu();
+    });
   }
 
   deleteUser(){
-
+    this.userService.deleteUser(this.user).subscribe(() => {
+      this.userDeleted.emit(this.user);
+      this.closeMenu();
+    });
   }
-
-//  createMessage(message:string){
-//    return {"id":1,"body":message,"me":true,"time":moment().format("LT")};
-//  }
 
 }

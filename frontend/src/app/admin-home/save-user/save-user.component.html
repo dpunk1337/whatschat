@@ -30,7 +30,7 @@
     <div class="userField">
       <div class="fieldTag">Is User An Admin ? :</div>
       <div id="isAdminCheckbox">
-        <input [(ngModel)]="user.is_admin" class="customCheckbox" type="checkbox" [disabled]="isEditMode">
+        <input [(ngModel)]="user.is_admin" [checked]="false" class="customCheckbox" type="checkbox" [disabled]="isEditMode">
       </div>
     </div>
   </div>

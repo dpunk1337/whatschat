@@ -3,8 +3,10 @@
 <app-save-user
   *ngIf="isSaveUserMenuOpen"
   (closeButtonClicked)="closeSaveUserMenu()"
-  (newUserSaved)="onNewUserAdded()"
-  [isEditMode]="openInEditMode" [user]="userToEdit">
+  [isEditMode]="openInEditMode"
+  [user]="userToEdit"
+  (userDeleted)="onUserDeleted($event)"
+  (newUserSaved)="onNewUserAdded($event)">
 </app-save-user>
 
 <!--  (newUserSaved)="onNewUserAdded($event)">-->

@@ -39,6 +39,10 @@ export class AdminHomeComponent {
     else{
       this.logOut();
     }
+    this.getLatestUsers();
+  }
+
+  getLatestUsers() {
     this.userService.getAll().subscribe((users :User[]) => {
       this.users = users;
     });
@@ -70,6 +74,7 @@ export class AdminHomeComponent {
     this.closeMoreVerticalMenuVisible();
     this.openInEditMode=false;
     this.userToEdit = new User();
+    this.userToEdit['is_admin']= false;
     this.openSaveUserMenu();
   }
 
@@ -87,8 +92,12 @@ export class AdminHomeComponent {
     this.isSaveUserMenuOpen = false;
   }
 
-  onNewUserAdded(){
-    alert("user create menu opened");
+  onNewUserAdded(user :User){
+    this.getLatestUsers();
+  }
+
+  onUserDeleted(user :User){
+    this.getLatestUsers();
   }
 
   logOut() {

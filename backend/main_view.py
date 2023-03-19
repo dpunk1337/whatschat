@@ -142,3 +142,43 @@ def add_group_message():
     db.session.commit()
 
     return {'message': 'Message persisted successfully'}
+
+@bp.route('/api/saveUser', methods= ["POST"])
+def save_user():
+    user = request.json['user']
+    isEdit = request.json['isEdit']
+    returned_user = None
+
+    if not isEdit :
+        new_user = User(username = user['username'], password_hash = user['password'], mobile_number = user['mobile_number'], is_admin = user['is_admin'] )
+        db.session.add(new_user)
+        db.session.commit()
+
+        returned_user = UserSchema().dump(new_user)
+        returned_user.pop('password_hash')
+    else:
+        updated_user = User.query.get(int(user['id']))
+        if updated_user is None:
+            return jsonify({'message': 'user not found or user is not a member'}), 404
+        updated_user.username = user['username']
+        updated_user.mobile_number = user['mobile_number']
+        updated_user.is_admin = user['is_admin']
+        db.session.commit()
+
+        returned_user = UserSchema().dump(updated_user)
+        returned_user.pop('password_hash')
+
+    return jsonify(returned_user)
+
+
+@bp.route('/api/deleteUser', methods=["POST"])
+def delete_user():
+    user = request.json['user']
+    deleted_user = User.query.get(int(user['id']))
+
+    if deleted_user is not None:
+        db.session.delete(deleted_user)
+        db.session.commit()
+        return jsonify({ 'message' : 'User deleted successfully'})
+
+    return jsonify({ 'message' : 'User does not exist'})
