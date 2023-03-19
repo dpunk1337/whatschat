@@ -48,4 +48,8 @@ export class AuthService {
       })
     );
   }
+
+  isAdmin() {
+    return (this.current_user && this.current_user['is_admin']);
+  }
 }

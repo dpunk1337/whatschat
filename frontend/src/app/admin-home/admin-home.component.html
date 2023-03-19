@@ -1,0 +1,58 @@
+<div id="admin_background"></div>
+<div id="admin_body">
+<app-save-user
+  *ngIf="isSaveUserMenuOpen"
+  (closeButtonClicked)="closeSaveUserMenu()"
+  (newUserSaved)="onNewUserAdded()"
+  [isEditMode]="openInEditMode" [user]="userToEdit">
+</app-save-user>
+
+<!--  (newUserSaved)="onNewUserAdded($event)">-->
+<div id="sidebar" [hidden]="isSaveUserMenuOpen">
+  <div id="row1">
+    <div id="sidebarHeader">
+      <div class="avatarContainer">
+        <img src="../../assets/images/no-avatar.svg">
+      </div>
+      <div id="userNameTag"> {{ username }}</div>
+      <div class="actionsContainer">
+        <div id="sidebarMoreVerticalContainer">
+          <img src="../../assets/images/more-vertical-icon.svg" (click)="toggleMoreVerticalMenuVisible()">
+          <div #sidebarMoreVerticalMenu [hidden]="!moreVerticalMenuVisible" id="sidebarMoreVerticalMenu" (clickOutside)="closeMoreVerticalMenuVisible()">
+            <div id="createNewGroup" (click)="onOpenNewUserCreateMenu()" class="option">Add user</div>
+            <div id="logOut" (click)="logOut()" class="option">Log out</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="searchBox">
+      <img src="../assets/images/search-icon.svg">
+      <input [(ngModel)]="searchText" type="text" placeholder="Search contact name or mobile number">
+    </div>
+  </div>
+
+  <div id="sidebarContent" >
+<!--    <div id="noConversations">All chats are archived</div>-->
+    <div
+      class="conversation"
+      *ngFor="let user of !searchText ? users : filteredUsers"
+      (click)="onOpenUserEditMenu(user)"
+    >
+      <div class="picture">
+        <img src="../../assets/images/no-avatar.svg">
+      </div>
+
+      <div class="content">
+        <div class="conversationHeader">
+          <div class="name">{{ user.username }}</div>
+        </div>
+        <div class="mobileNumber">
+          {{user.mobile_number}}
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div>

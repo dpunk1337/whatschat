@@ -1,0 +1,189 @@
+#admin_background{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: #00a884;
+}
+
+#admin_body{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  width: 50%;
+  height: 95%;
+  background-color: #fff;
+  right: 0px;
+  left: 0px;
+  box-shadow: rgba(120, 120, 120, 0.7) 0px 0px 80px;
+
+#sidebar{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    #row1{
+      flex-basis: 104px;
+      display: flex;
+      flex-direction: column;
+
+      #sidebarHeader{
+        flex-basis: 67px;
+        background-color: #f0f2f5;
+        display: flex;
+        align-items: center;
+        padding-left: 20px;
+        padding-right: 20px;
+        justify-content: space-between;
+
+        .avatarContainer{
+          flex-basis: 43px;
+          height: 43px;
+
+          img{
+            width: 100%;
+            cursor: pointer;
+          }
+        }
+
+        #userNameTag{
+          font-size: 18px;
+          color: #41525d;
+          margin-right: 10px;
+        }
+
+        .actionsContainer{
+          height: 100%;
+          width: 120px;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+
+          #sidebarMoreVerticalContainer{
+            position: relative;
+            img{
+              cursor: pointer;
+            }
+            #sidebarMoreVerticalMenu{
+              background-color: #fff;
+              position: absolute;
+              padding: 9px 0;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              box-shadow: rgba(120, 120, 120, 0.45) 0px 0px 10px;
+              border-radius: 3px;
+              top: 40px;
+              right: 0;
+
+              .option{
+                width: 110px;
+                min-height: 30px;
+                display: flex;
+                padding: 13px 58px 0px 24px;
+                font-size: 14.5px;
+                color: #3B4A54;
+                cursor: pointer;
+
+                &:hover {
+                  background-color: rgba(#00000d, 0.04);
+                }
+              }
+            }
+          }
+        }
+
+      }
+
+      #searchBox{
+        flex-basis: 50px;
+        background-color: white;
+        border-bottom: 1px solid #e9edef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        img{
+          position: relative;
+          left: 33px;
+        }
+
+        input{
+          width: calc(90% - 40px);
+          border: 1px solid #f7f7f7;
+          border-radius: 8px;
+          height: 70%;
+          background: #F0F2F5;
+          padding-left: 40px;
+          outline: none;
+        }
+      }
+
+    }
+
+    #sidebarContent{
+      overflow: auto;
+
+      #noConversations{
+        padding-top: 30px;
+        text-align: center;
+        color: #667781;
+        font-size: 18px;
+      }
+
+      .conversation{
+        width: 100%;
+        height: 67px;
+        display: flex;
+        transition: all 0.1s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba(#00000d, 0.04);
+        }
+
+        .picture{
+          height: 100%;
+          flex-basis: 73px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          img{
+            width: 49px;
+          }
+        }
+        .content{
+          height: 100%;
+          border-bottom: 1px solid #e9edef;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+          padding-right: 15px;
+
+          .conversationHeader{
+            flex-grow: 1;
+            display: flex;
+            align-items: end;
+            margin-bottom: 2px;
+            justify-content: space-between;
+            align-items: flex-end;
+
+            .name{
+              font-size: 17px;
+            }
+          }
+          .mobileNumber{
+            flex-grow: 1;
+            font-size: 14px;
+            color: rgb(102, 119, 129);
+            margin-top: 2px;
+            display: flex;
+            line-height: 22px;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,133 @@
+#sidebar{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  #row1{
+    flex-basis: 104px;
+    display: flex;
+    flex-direction: column;
+
+    #sidebarHeader{
+      flex-basis: 67px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      background-color: #008069;
+      padding-left: 20px;
+      padding-right: 20px;
+
+      .actionsContainer{
+        height: 100%;
+        width: 120px;
+        margin-top: 38px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-end;
+
+        #closeMenuButton{
+          cursor: pointer;
+        }
+      }
+    }
+
+    #addParticipantsHeading{
+      padding-left: 20px;
+      padding-right: 20px;
+      background-color: #008069;
+      flex-basis: 50px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      font-size: 19px;
+      font-weight: 500;
+      border-bottom: 1px solid #e9edef;
+    }
+
+  }
+
+  #content{
+    display: flex;
+    flex-grow: 1;
+    padding: 20px;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .userField{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .fieldTag{
+        font-size: 17px;
+        color: #41525d;
+        padding: 4px;
+      }
+
+      input[type = text], input[type = number]{
+        height: 40px;
+        width: 100%;
+        border: 0;
+        border-radius: 8px;
+        outline: none;
+        resize: none;
+        box-sizing: border-box;
+        padding: 12px;
+        margin-right: 20px;
+        font-size: 15px;
+        border: 3px solid #008069;
+        color: #008069;
+      }
+
+      #isAdminCheckbox{
+        .customCheckbox{
+          background-color: #fff;
+          border: 3px solid #008069;
+          padding: 7px;
+          border-radius: 6px;
+        }
+
+        .customCheckbox:checked {
+          background-color: #008069;
+          border: 3px solid #008069;
+        }
+
+        .customCheckbox:checked:after {
+          font-size: 10px;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  #footer{
+  //flex-basis: 67px; don't use this, it causes issue when more messages are added to body - use min-height instead
+  min-height: 67px;
+  background-color: #F0F2F5;
+  display: flex;
+  padding: 0 20px;
+
+    #textArea{
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+    }
+
+    #deleteUser{
+      cursor: pointer;
+    }
+
+    #createGroupSubmit{
+      width: 30px;
+      border: 1px solid #008069;
+      border-radius: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #008069;
+      cursor: pointer;
+    }
+  }
+}

@@ -15,7 +15,12 @@ export class LoginComponent {
 
   onSubmit() {
     this.authService.login(this.username, this.password).subscribe(() => {
-      this.router.navigate(['/chat']);
+      if(this.authService.current_user['is_admin']){
+        this.router.navigate(['/admin']);
+      }
+      else{
+        this.router.navigate(['/chat']);
+      }
     });
   }
 }

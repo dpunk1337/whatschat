@@ -1,0 +1,49 @@
+<div id="sidebar">
+  <div id="row1">
+    <div id="sidebarHeader">
+      <div class="actionsContainer">
+        <img id="closeMenuButton" (click)="closeMenu()" src="../../assets/images/close-icon.svg">
+      </div>
+    </div>
+    <div id="addParticipantsHeading">
+      {{ (isEditMode) ? "Update user details" : "Add user details" }}
+    </div>
+  </div>
+
+  <div id="content">
+    <div class="userField">
+      <div class="fieldTag">User Id :</div>
+      <input type="number" [(ngModel)]="user.id" [placeholder]=" isEditMode ? user.id : ' Id ' " [disabled]="true">
+    </div>
+    <div class="userField">
+      <div class="fieldTag">Mobile Number :</div>
+      <input type="number" [(ngModel)]="user.mobile_number" [placeholder]=" isEditMode ? user.mobile_number : ' Mobile Number ' ">
+    </div>
+    <div class="userField">
+      <div class="fieldTag">User Name :</div>
+      <input type="text" [(ngModel)]="user.username" [placeholder]=" isEditMode ? user.username : ' Username ' ">
+    </div>
+    <div class="userField">
+      <div class="fieldTag">User Password :</div>
+      <input type="text" [(ngModel)]="user.password" [placeholder]=" isEditMode ? user.password : ' Password ' " [disabled]="isEditMode">
+    </div>
+    <div class="userField">
+      <div class="fieldTag">Is User An Admin ? :</div>
+      <div id="isAdminCheckbox">
+        <input [(ngModel)]="user.is_admin" class="customCheckbox" type="checkbox" [disabled]="isEditMode">
+      </div>
+    </div>
+  </div>
+
+  <div id="footer">
+    <div id="textArea">
+      <div id="deleteUser" (click)="deleteUser()" *ngIf="isEditMode">
+        <img src="../../assets/images/delete-icon.svg">
+      </div>
+      <div id="createGroupSubmit" (click)="submitSaveUser()">
+        <img src="../../assets/images/go-forward-icon.svg">
+      </div>
+    </div>
+  </div>
+
+</div>
