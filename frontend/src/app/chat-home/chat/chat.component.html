@@ -23,8 +23,9 @@
   <div id="body">
     <div class="message" [ngClass]="{me : message.me }" *ngFor="let message of messages">
       <div class="messageContent">
+        <div *ngIf=" !message.me " class="senderName">{{ message.username }}</div>
         {{ message.body }}
-        <div class="time">{{ message.time }}</div>
+        <div class="time">{{ message.timestamp }}</div>
       </div>
     </div>
   </div>

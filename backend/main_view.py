@@ -3,6 +3,8 @@ from flask_login import login_required, current_user
 import os
 from backend.models import *
 from backend.schemas import *
+from sqlalchemy import desc
+from datetime import datetime
 
 bp = Blueprint('main', __name__, static_folder=os.path.abspath(r'frontend/dist/frontend/'), static_url_path='/')
 
@@ -112,10 +114,16 @@ def get_member_conversations():
 def get_group_messages():
     id = request.form['id']
     group = Group.query.get(int(id))
-    messages = GroupMessageSchema(many=True).dump(group.group_messages)
+    group_messages = group.group_messages.order_by(desc(GroupMessage.created_at))
+    messages = GroupMessageSchema(many=True).dump(group_messages)
+    user_id_to_name_map = {}
+    for user in group.members:
+        user_id_to_name_map[user.id]=user.username
     for index, message in enumerate(messages):
-        message['user_id'] = group.group_messages[index].user_id
-        message['group_id'] = group.group_messages[index].group_id
+        message['user_id'] = group_messages[index].user_id
+        message['group_id'] = group_messages[index].group_id
+        message['timestamp'] = datetime.strptime(message['created_at'], "%Y-%m-%dT%H:%M:%S.%f").strftime("%d %B %I:%M %p")
+        message['username'] = user_id_to_name_map[group_messages[index].user_id]
     return jsonify(messages)
 
 @bp.route('/api/addGroupMessage', methods=['POST'])

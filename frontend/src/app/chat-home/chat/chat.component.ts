@@ -13,7 +13,16 @@ export class ChatComponent {
 
   messages : any[] = [];
 
+  current_user_id: number = -1;
+
   constructor(private authService: AuthService, private groupService: GroupService){}
+
+  ngOnInit(){
+    this.current_user_id = this.authService.current_user['id'];
+    this.groupService.poll(this).subscribe((messages: any[]) => {
+      this.setMessageContent(messages);
+    });
+  }
 
   submitMessage(event:any){
     let message = event.target.value.trim();
@@ -30,7 +39,6 @@ export class ChatComponent {
       "user_id":this.authService.current_user['id'],
       "group_id":this.conversation['id']
     };
-    console.log()
     this.groupService.sendGroupMessage(messageElement).subscribe( () => {
       this.getMessages();
     });
@@ -49,15 +57,17 @@ export class ChatComponent {
   }
 
   getMessages() {
-    this.messages = [];
-    let current_user_id: number = this.authService.current_user['id'];
     this.groupService.getGroupMessages(this.conversation['id']).subscribe((messages: any[]) => {
+      this.setMessageContent(messages);
+    });
+  }
+
+  setMessageContent(messages: any[]) {
+      this.messages = [];
       messages.forEach( (message: any) => {
-          console.log(message, current_user_id);
-          message['me']=(message['user_id']===current_user_id);
+          message['me']=(message['user_id']=== this.current_user_id);
       });
       this.messages=messages;
-    });
   }
 
   @ViewChild('chatMoreVerticalMenu') chatMoreVerticalMenu!: ElementRef;

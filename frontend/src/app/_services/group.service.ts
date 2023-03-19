@@ -4,6 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '@environments/environment';
 import { Group } from '@app/_models/group.model';
 import { User } from '@app/_models/user.model';
+import { Observable, timer } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class GroupService {
@@ -65,6 +67,16 @@ export class GroupService {
       });
       let body = JSON.stringify(message);
       return this.http.post<any[]>(`${environment.apiUrl}/addGroupMessage`, body, {headers});
+    }
+
+    poll(self :any): Observable<any[]> {
+      return timer(0, environment.chatPollMillis).pipe(
+        switchMap(() => {
+          let body = new FormData();
+          body.append('id', self.conversation['id'].toString());
+          return this.http.post<any[]>(`${environment.apiUrl}/getGroupMessages`, body)
+        })
+      );
     }
 
 }
