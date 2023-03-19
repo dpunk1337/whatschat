@@ -33,7 +33,12 @@ export class SidebarComponent {
   constructor(private http: HttpClient, private authService: AuthService, private router: Router, private groupService: GroupService) {}
 
   ngOnInit(){
-    this.username = this.authService.current_user['username'];
+    if(this.authService.current_user){
+      this.username = this.authService.current_user['username'];
+    }
+    else{
+      this.logOut();
+    }
     this.groupService.getUserConversations(this.authService.current_user['id']).subscribe((conversations :any) => {
       this.conversations = conversations;
     });
@@ -75,7 +80,6 @@ export class SidebarComponent {
 
   logOut() {
     this.authService.logout().subscribe(() => {
-      sessionStorage.removeItem('username');
       this.router.navigate(['/login']);
     });
   }

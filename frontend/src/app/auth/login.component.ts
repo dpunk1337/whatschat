@@ -15,7 +15,6 @@ export class LoginComponent {
 
   onSubmit() {
     this.authService.login(this.username, this.password).subscribe(() => {
-      sessionStorage.setItem('username', this.username);
       this.router.navigate(['/chat']);
     });
   }

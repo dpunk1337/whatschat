@@ -33,3 +33,12 @@ def logout():
     return jsonify({'message': 'Logout successful'})
 
 
+@bp.route('/api/is_authenticated', methods=['GET'])
+@login_required
+def is_authenticated():
+    user = User.query.get(int(current_user.userid))
+    logged_in_user = UserSchema().dump(user)
+    logged_in_user.pop('password_hash')
+    return jsonify({'is_authenticated': True, 'user': logged_in_user})
+
+
