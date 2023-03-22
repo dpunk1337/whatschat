@@ -6,6 +6,7 @@ from backend.models import *
 from backend.schemas import *
 from sqlalchemy import desc
 from datetime import datetime
+from backend.auth_view import admin_required
 
 bp = Blueprint('main', __name__, static_folder=os.path.abspath(r'frontend/dist/frontend/'), static_url_path='/')
 
@@ -35,8 +36,9 @@ def add_header(r):
 
 
 @bp.route('/api/users')
+@login_required
 def getUsers():
-    users = db.session.query(User).all()
+    users = db.session.query(User).filter((User.id != current_user.id) & (User.is_admin == 0))
     return jsonify(UserSchema(many=True).dump(users))
 
 
@@ -51,6 +53,8 @@ def create_group():
         user = User.query.get(member_id)
         if user:
             group.members.append(user)
+        else:
+            return jsonify({'success': False, 'message': 'A member doesn\'t exist'}), 404
 
     group.members.append(current_user)
 
@@ -63,22 +67,32 @@ def create_group():
 
 
 @bp.route('/api/group', methods=['GET'])
+@login_required
 def get_group():
     id = request.form['id']
-    return jsonify(GroupSchema().dump(Group.query.get(int(id))))
+    group = Group.query.get(int(id))
+    if not group:
+        return jsonify({'success': False, 'message': 'Group with group id '+str(id)+' doesn\'t exists'}), 404
+    return jsonify(GroupSchema().dump())
 
 
 @bp.route('/api/getGroupMembers', methods=['POST'])
+@login_required
 def get_group_members():
     id = request.form['id']
     group = Group.query.get(int(id))
+    if not group:
+        return jsonify({'success': False, 'message': 'Group with group id '+str(id)+' doesn\'t exists'}), 404
     return jsonify(UserSchema(many=True).dump(group.members))
 
 @bp.route('/api/addGroupMember', methods=['POST'])
+@login_required
 def add_group_member():
     user_id = request.form['user_id']
     group_id = request.form['group_id']
     group = Group.query.get(int(group_id))
+    if not group:
+        return jsonify({'success': False, 'message': 'Group with group id '+str(id)+' doesn\'t exists'}), 404
     user = User.query.get(int(user_id))
     if user is None or user in group.members:
         return jsonify({'message': 'user not found or user already added'}), 404
@@ -87,10 +101,13 @@ def add_group_member():
     return jsonify({'message': 'Member added successfully'})
 
 @bp.route('/api/removeGroupMember', methods=['POST'])
+@login_required
 def remove_group_member():
     user_id = request.form['user_id']
     group_id = request.form['group_id']
     group = Group.query.get(int(group_id))
+    if not group:
+        return jsonify({'success': False, 'message': 'Group with group id '+str(id)+' doesn\'t exists'}), 404
     user = User.query.get(int(user_id))
     if user is None or user not in group.members:
         return jsonify({'message': 'user not found or user is not a member'}), 404
@@ -99,22 +116,31 @@ def remove_group_member():
     return jsonify({'message': 'Member removed successfully'})
 
 @bp.route('/api/getMemberGroups', methods=['POST'])
+@login_required
 def get_member_groups():
     id = request.form['id']
     user = User.query.get(int(id))
+    if not user:
+        return jsonify({'success': False, 'message': 'User with user id '+str(id)+' doesn\'t exists'}), 404
     return jsonify(GroupSchema(many=True).dump(user.groups))
 
 @bp.route('/api/getMemberConversations', methods=['POST'])
+@login_required
 def get_member_conversations():
     id = request.form['id']
     user = User.query.get(int(id))
+    if not user:
+        return jsonify({'success': False, 'message': 'User with user id '+str(id)+' doesn\'t exists'}), 404
     conversations = GroupSchema(many=True).dump(user.groups)
     return jsonify(conversations)
 
 @bp.route('/api/getGroupMessages', methods=['POST'])
+@login_required
 def get_group_messages():
     id = request.form['id']
     group = Group.query.get(int(id))
+    if not group:
+        return jsonify({'success': False, 'message': 'Group with group id '+str(id)+' doesn\'t exists'}), 404
     group_messages = group.group_messages.order_by(desc(GroupMessage.created_at))
     messages = GroupMessageSchema(many=True).dump(group_messages)
     user_id_to_name_map = {}
@@ -128,6 +154,7 @@ def get_group_messages():
     return jsonify(messages)
 
 @bp.route('/api/addGroupMessage', methods=['POST'])
+@login_required
 def add_group_message():
     data = request.json
     user_id = data.get('user_id')
@@ -144,6 +171,8 @@ def add_group_message():
     return {'message': 'Message persisted successfully'}
 
 @bp.route('/api/saveUser', methods= ["POST"])
+@login_required
+@admin_required
 def save_user():
     user = request.json['user']
     isEdit = request.json['isEdit']
@@ -159,7 +188,7 @@ def save_user():
     else:
         updated_user = User.query.get(int(user['id']))
         if updated_user is None:
-            return jsonify({'message': 'user not found or user is not a member'}), 404
+            return jsonify({'message': 'user not found '}), 404
         updated_user.username = user['username']
         updated_user.mobile_number = user['mobile_number']
         updated_user.is_admin = user['is_admin']
@@ -172,6 +201,8 @@ def save_user():
 
 
 @bp.route('/api/deleteUser', methods=["POST"])
+@login_required
+@admin_required
 def delete_user():
     user = request.json['user']
     deleted_user = User.query.get(int(user['id']))
@@ -181,4 +212,4 @@ def delete_user():
         db.session.commit()
         return jsonify({ 'message' : 'User deleted successfully'})
 
-    return jsonify({ 'message' : 'User does not exist'})
+    return jsonify({ 'message' : 'User does not exist'}), 404

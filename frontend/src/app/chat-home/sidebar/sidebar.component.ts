@@ -75,6 +75,9 @@ export class SidebarComponent {
   ngOnChanges(changes: SimpleChanges) {
     if (changes['addConversation'] && changes['addConversation'].currentValue) {
       let newConversation = changes['addConversation'].currentValue;
+      this.groupService.getUserConversations(this.authService.current_user['id']).subscribe((conversations :any) => {
+        this.conversations = conversations;
+      });
     }
   }
 

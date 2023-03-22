@@ -1,11 +1,20 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify, abort
 from flask_login import login_user, login_required, logout_user, current_user
 from backend import login_manager
 from backend.models import User
 from backend.forms import *
 from backend.schemas import UserSchema
+from functools import wraps
 
 bp = Blueprint('auth',__name__)
+
+def admin_required(func):
+    @wraps(func)
+    def decorated_view(*args, **kwargs):
+        if not current_user.is_authenticated or not current_user.is_admin:
+            abort(403)
+        return func(*args, **kwargs)
+    return decorated_view
 
 @bp.route('/api/login', methods=['GET', 'POST'])
 def login():
