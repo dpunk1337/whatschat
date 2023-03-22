@@ -66,14 +66,14 @@ def create_group():
     return jsonify(returned_group)
 
 
-@bp.route('/api/group', methods=['GET'])
+@bp.route('/api/group', methods=['POST'])
 @login_required
 def get_group():
     id = request.form['id']
     group = Group.query.get(int(id))
     if not group:
         return jsonify({'success': False, 'message': 'Group with group id '+str(id)+' doesn\'t exists'}), 404
-    return jsonify(GroupSchema().dump())
+    return jsonify(GroupSchema().dump(group))
 
 
 @bp.route('/api/getGroupMembers', methods=['POST'])
