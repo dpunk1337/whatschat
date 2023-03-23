@@ -48,7 +48,7 @@ To ensure that the application is fully functional, end-to-end tests have been i
       - `source venv/bin/activate` for Unix/macOS or `.\venv\Scripts\activate` for Windows
       - `pip install -r requirements.txt`
       - `python run.py`
-      - It will run a server on `http://127.0.0.1:<port>` 
+      - It will run a server on `http://127.0.0.1:<port>` or `http://localhost:<port>`
         - Port mentioned in run.py. Other configurations present in config.py
         - Database used is SQLite which will automatically get setup on deployment
 
