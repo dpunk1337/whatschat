@@ -1,7 +1,7 @@
 # WhatsChat
 WhatsChat is a simple web application that provides group chat services and user management features. The application is built using Angular, Flask, Python, Typescript, SQLite, CSS, and HTML.
 
-The application has two types of users - Admin and Normal users. Admin users can manage user accounts, while normal users can create, search, and delete groups, send group messages, and like messages. WhatsChat provides a user-friendly interface that resembles WhatsApp.
+The application has two types of users - Admin and Normal users. Admin users can manage user accounts, while normal users can create, search, and manage members of groups, send group messages, and check the sender of messages. WhatsChat provides a user-friendly interface that resembles WhatsApp.
 
 This application is solely meant as a training project to consolidate my learning in the given technologies.
 
